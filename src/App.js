@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./Navbar";
+import StudentRegistrationForm from "./StudentRegistrationForm";
+import StudentList from "./StudentList";
+import { useState, useEffect } from "react";
+import "./styles.css";
 
-function App() {
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5010";
+
+const App = () => {
+  const [students, setStudents] = useState([]);
+
+  const fetchStudents = async () => {
+    try {
+      const response = await fetch(`${API_URL}/students`);
+      if (!response.ok) throw new Error("Failed to fetch students");
+
+      const data = await response.json();
+      setStudents(data);
+    } catch (error) {
+      console.error("Error fetching students:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchStudents();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Navbar />
+      <div className="container">
+        <Routes>
+          <Route path="/" element={<StudentRegistrationForm onRegister={fetchStudents} />} />
+          <Route path="/students" element={<StudentList />} />
+        </Routes>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;
