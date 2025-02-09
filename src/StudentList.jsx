@@ -5,7 +5,7 @@ const StudentList = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5010";
+  const API_URL = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     fetchStudents();

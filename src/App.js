@@ -5,7 +5,7 @@ import StudentList from "./StudentList";
 import { useState, useEffect } from "react";
 import "./styles.css";
 
-const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5010";
+const API_URL = process.env.REACT_APP_API_URL;
 
 const App = () => {
   const [students, setStudents] = useState([]);
